@@ -1,1 +1,217 @@
+:root {
+  --bg-deep: #0a0a1a;
+  --bg-mid: #14142b;
+  --violet: #8b7cf6;
+  --pink-glow: #ff8fd6;
+  --text-main: #eceaf6;
+  --text-dim: #9a97b8;
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: radial-gradient(ellipse at top, var(--bg-mid), var(--bg-deep) 70%);
+  color: var(--text-main);
+  font-family: 'Sora', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#stars {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -2;
+}
+
+#hearts {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  font-size: 18px;
+  color: var(--pink-glow);
+  opacity: 0.5;
+  animation: rise linear forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-110vh) translateX(var(--drift, 0px)) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+/* Nav */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 6vw;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+.logo .dot { color: var(--violet); }
+
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 28px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-main); }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 6vw;
+  max-width: 780px;
+}
+
+.eyebrow {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  background: linear-gradient(90deg, var(--violet), var(--pink-glow));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin-bottom: 32px;
+}
+
+.btn {
+  display: inline-block;
+  width: fit-content;
+  padding: 12px 24px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--violet), var(--pink-glow));
+  color: #0a0a1a;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 124, 246, 0.35);
+}
+
+/* Sections */
+.section {
+  padding: 100px 6vw;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 4vw, 40px);
+  margin-bottom: 32px;
+}
+
+/* Glass cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 28px;
+  backdrop-filter: blur(14px);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 124, 246, 0.5);
+}
+
+.about-card p, .contact-card p {
+  color: var(--text-dim);
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.skills-grid, .projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.skill h3, .project h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--violet);
+}
+.skill p, .project p {
+  color: var(--text-dim);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  max-width: 480px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .nav-links a { margin-left: 16px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .heart { animation: none; display: none; }
+}
