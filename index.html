@@ -3,92 +3,464 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaxyo — Portfolio</title>
+<title>VENZO — Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #f6f3ec;
+    --paper-warm: #efeae0;
+    --ink: #16140f;
+    --ink-soft: #4d4a42;
+    --halftone: #b9b3a4;
+    --hanko: #b8302a;
+    --line: #16140f;
+    --gutter: 10px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  ::selection{ background:var(--hanko); color:var(--paper); }
+
+  .mincho{ font-family:'Shippori Mincho', serif; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
+
+  /* Halftone dot texture, reused as a background pattern */
+  .halftone{
+    background-image: radial-gradient(var(--halftone) 1px, transparent 1.3px);
+    background-size: 7px 7px;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- Layout shell: manga page grid ---------- */
+  .page{
+    max-width:1180px;
+    margin:0 auto;
+    padding:var(--gutter);
+  }
+
+  header.topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px var(--gutter);
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:3px solid var(--line);
+  }
+  .logo{
+    font-size:1.3rem; font-weight:800; letter-spacing:0.04em;
+  }
+  .logo span{ color:var(--hanko); }
+  nav.topnav{ display:flex; gap:28px; }
+  nav.topnav a{
+    font-size:0.85rem; text-transform:uppercase; letter-spacing:0.12em;
+    position:relative; padding-bottom:2px;
+  }
+  nav.topnav a::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:0; height:2px;
+    background:var(--hanko); transition:width .25s ease;
+  }
+  nav.topnav a:hover::after{ width:100%; }
+
+  /* ---------- Hero: full title splash panel ---------- */
+  .hero{
+    position:relative;
+    margin:var(--gutter);
+    border:4px solid var(--line);
+    min-height:78vh;
+    display:flex; align-items:center;
+    overflow:hidden;
+    background:var(--paper);
+  }
+  .speedlines{
+    position:absolute; inset:0; z-index:0; opacity:0.5;
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:2;
+    padding: 6vw 6vw;
+    width:100%;
+  }
+  .eyebrow-stamp{
+    display:inline-flex; align-items:center; gap:10px;
+    margin-bottom:22px;
+  }
+  .hanko-badge{
+    width:40px; height:40px;
+    border:2.5px solid var(--hanko);
+    color:var(--hanko);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Shippori Mincho', serif;
+    font-weight:800; font-size:1.05rem;
+    transform:rotate(-4deg);
+    flex:none;
+  }
+  .eyebrow-stamp .mono{
+    font-size:0.75rem; text-transform:uppercase; color:var(--ink-soft);
+  }
+  .hero h1{
+    font-size:clamp(2.8rem, 8vw, 6.4rem);
+    line-height:0.98;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--paper);
+    background:var(--ink);
+    padding:0 0.12em;
+  }
+  .hero p.role{
+    margin-top:22px;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .hero-cta{
+    margin-top:38px;
+    display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-block;
+    padding:14px 26px;
+    border:2.5px solid var(--ink);
+    font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em;
+    font-weight:500;
+    transition:transform .18s ease, background .18s ease, color .18s ease;
+  }
+  .btn-fill{ background:var(--ink); color:var(--paper); }
+  .btn-fill:hover{ background:var(--hanko); border-color:var(--hanko); transform:translate(-2px,-2px); }
+  .btn-ghost:hover{ background:var(--ink); color:var(--paper); transform:translate(-2px,-2px); }
+
+  .corner-tag{
+    position:absolute; bottom:18px; right:22px; z-index:2;
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.15em;
+    color:var(--ink-soft);
+    writing-mode:vertical-rl;
+  }
+
+  /* ---------- Section label: SFX-style diagonal banner ---------- */
+  .section-label{
+    display:flex; align-items:center; gap:14px;
+    margin:70px var(--gutter) 26px;
+  }
+  .section-label .num{
+    font-size:0.8rem; color:var(--hanko);
+  }
+  .section-label h2{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:1.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .section-label .rule{
+    flex:1; height:2px; background:var(--ink);
+  }
+
+  /* ---------- About panel ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns: 1.1fr 1.6fr;
+    gap:var(--gutter);
+    margin:0 var(--gutter) 20px;
+  }
+  @media (max-width: 760px){ .about-grid{ grid-template-columns:1fr; } }
+
+  .panel{
+    border:3px solid var(--line);
+    background:var(--paper);
+    padding:34px;
+    position:relative;
+  }
+  .panel.tone{
+    background: var(--paper-warm);
+  }
+  .about-portrait{
+    display:flex; align-items:center; justify-content:center;
+    min-height:260px;
+  }
+  .kanji-mark{
+    font-family:'Shippori Mincho', serif;
+    font-size:6rem;
+    font-weight:700;
+    color:var(--ink);
+    opacity:0.9;
+  }
+  .about-text p{ margin-bottom:16px; color:var(--ink-soft); }
+  .about-text strong{ color:var(--ink); }
+
+  .stat-row{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:var(--gutter);
+    margin-top:20px;
+  }
+  .stat{
+    border-top:3px solid var(--ink);
+    padding-top:10px;
+  }
+  .stat .n{ font-family:'Shippori Mincho', serif; font-size:1.9rem; font-weight:700; }
+  .stat .l{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); }
+
+  /* ---------- Skills: manga panel strip ---------- */
+  .skills-strip{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:var(--gutter);
+    margin:0 var(--gutter) 20px;
+  }
+  @media (max-width:760px){ .skills-strip{ grid-template-columns:repeat(2,1fr); } }
+  .skill-panel{
+    border:3px solid var(--line);
+    padding:22px 20px;
+    background:var(--paper);
+    transition:background .2s ease, color .2s ease;
+  }
+  .skill-panel:hover{ background:var(--ink); color:var(--paper); }
+  .skill-panel .mono{ font-size:0.7rem; color:var(--hanko); display:block; margin-bottom:10px; }
+  .skill-panel:hover .mono{ color:#e8b3ad; }
+  .skill-panel h3{ font-size:1.05rem; font-weight:700; margin-bottom:8px; }
+  .skill-panel p{ font-size:0.85rem; opacity:0.85; }
+
+  /* ---------- Projects: asymmetric panel grid ---------- */
+  .project-grid{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap:var(--gutter);
+    margin:0 var(--gutter) 20px;
+  }
+  .proj{
+    border:3px solid var(--line);
+    background:var(--paper);
+    padding:26px;
+    position:relative;
+    overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    min-height:220px;
+  }
+  .proj.p1{ grid-column:span 4; }
+  .proj.p2{ grid-column:span 2; }
+  .proj.p3{ grid-column:span 2; }
+  .proj.p4{ grid-column:span 4; }
+  @media (max-width:900px){
+    .proj, .proj.p1, .proj.p2, .proj.p3, .proj.p4{ grid-column:span 6; }
+  }
+  .proj .halftone-layer{
+    position:absolute; inset:0; opacity:0.35; z-index:0;
+  }
+  .proj .content{ position:relative; z-index:1; }
+  .proj .idx{ font-size:0.75rem; color:var(--hanko); margin-bottom:10px; display:block; }
+  .proj h3{ font-family:'Shippori Mincho', serif; font-size:1.4rem; margin-bottom:8px; }
+  .proj p{ font-size:0.9rem; color:var(--ink-soft); max-width:42ch; }
+  .proj .tags{ margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+  .proj .tags span{
+    font-size:0.68rem; text-transform:uppercase;
+    border:1.5px solid var(--ink); padding:3px 8px;
+  }
+  .proj:hover{ background:var(--paper-warm); }
+
+  /* ---------- Contact ---------- */
+  .contact-panel{
+    margin:0 var(--gutter) var(--gutter);
+    border:4px solid var(--line);
+    padding:60px 6vw;
+    text-align:center;
+    position:relative;
+  }
+  .contact-panel h2{
+    font-family:'Shippori Mincho', serif;
+    font-size:clamp(2rem, 5vw, 3.2rem);
+    font-weight:800;
+    margin-bottom:18px;
+  }
+  .contact-panel p{ color:var(--ink-soft); margin-bottom:30px; }
+  .contact-links{
+    display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  }
+
+  footer{
+    text-align:center;
+    padding:26px var(--gutter) 40px;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    text-transform:uppercase; letter-spacing:0.1em;
+  }
+
+  /* Scroll reveal */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    *{ scroll-behavior:auto !important; }
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--hanko); outline-offset:2px;
+  }
+</style>
 </head>
 <body>
 
-<canvas id="stars"></canvas>
-<div id="hearts"></div>
-
-<nav class="nav">
-  <span class="logo">Yaxyo<span class="dot">.</span></span>
-  <div class="nav-links">
-    <a href="#about">about</a>
-    <a href="#skills">skills</a>
-    <a href="#projects">projects</a>
-    <a href="#contact">contact</a>
-  </div>
-</nav>
-
-<header class="hero">
-  <p class="eyebrow">frontend dasturchi</p>
-  <h1>Men <span class="highlight">Yaxyo</span>man.<br>Veb-saytlar quraman.</h1>
-  <p class="hero-sub">HTML, CSS va JavaScript yordamida interaktiv, jonli interfeyslar yarataman — har bir loyihada bitta aniq g'oyani oxirigacha olib boraman.</p>
-  <a href="#projects" class="btn">Loyihalarimni ko'rish ↓</a>
+<header class="topbar">
+  <div class="logo mincho">VENZO<span>.</span></div>
+  <nav class="topnav">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
-<section id="about" class="section">
-  <p class="eyebrow">01 — kimman</p>
-  <h2>Men haqimda</h2>
-  <div class="glass-card about-card">
-    <p>Men veb-dasturlashni o'rganayotgan boshlovchi dasturchiman. Har bir loyihamda vizual tafsilotlarga alohida e'tibor beraman — animatsiya, chuqurlik va his-tuyg'u orqali oddiy sahifalarni yodda qoladigan tajribaga aylantiraman.</p>
+<section class="hero">
+  <svg class="speedlines" viewBox="0 0 1000 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#16140f" stroke-width="1">
+      <line x1="1000" y1="0" x2="500" y2="700" opacity="0.15"/>
+      <line x1="1000" y1="60" x2="620" y2="700" opacity="0.13"/>
+      <line x1="1000" y1="120" x2="740" y2="700" opacity="0.11"/>
+      <line x1="1000" y1="180" x2="860" y2="700" opacity="0.09"/>
+      <line x1="1000" y1="0" x2="850" y2="0" opacity="0.05"/>
+      <line x1="1000" y1="240" x2="960" y2="700" opacity="0.07"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <div class="eyebrow-stamp">
+      <div class="hanko-badge">絃</div>
+      <span class="mono">Junior Developer — Vol. 01</span>
+    </div>
+    <h1 class="mincho">Kod yozaman,<br><em>hikoya</em> chizaman.</h1>
+    <p class="role">Salom, men <strong>Venzo</strong> (Nigmatov Yaxyo) — Ixtisoslashtirilgan maktab 10-sinf o'quvchisiman. HTML, CSS va JavaScript o'rganib, gamingga ishqiboz junior dasturchi bo'lishga intilaman.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-fill">Ishlarni ko'rish</a>
+      <a href="#contact" class="btn btn-ghost">Bog'lanish</a>
+    </div>
   </div>
+  <div class="corner-tag mono">SCROLL ↓</div>
 </section>
 
-<section id="skills" class="section">
-  <p class="eyebrow">02 — nima bilaman</p>
-  <h2>Ko'nikmalarim</h2>
-  <div class="skills-grid">
-    <div class="glass-card skill">
+<div class="page">
+
+  <div class="section-label reveal">
+    <span class="num mono">01</span>
+    <h2 id="about">Men haqimda</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="about-grid reveal">
+    <div class="panel tone about-portrait" style="flex-direction:column; gap:12px;">
+      <span class="kanji-mark">絃</span>
+      <span class="mono" style="font-size:0.7rem; color:var(--ink-soft); text-transform:uppercase;">Rasm tez orada</span>
+    </div>
+    <div class="panel about-text">
+      <p>Salom, men <strong>Nigmatov Yaxyo</strong>, taxallusim <strong>Venzo</strong>. Ixtisoslashtirilgan maktabning 10-sinf o'quvchisiman va veb-dasturlashni endi o'rganayotgan Junior dasturchiman.</p>
+      <p>Eng ko'p qiziqadigan sohalarimdan biri — <strong>Gaming</strong>. Kelajakda o'z loyihalarimni, jumladan o'yinlarga oid veb-interfeyslarni yaratishni maqsad qilganman.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="n mincho">10</div><div class="l">Sinf</div></div>
+        <div class="stat"><div class="n mincho">3</div><div class="l">Til: HTML/CSS/JS</div></div>
+        <div class="stat"><div class="n mincho">∞</div><div class="l">Gaming ishtiyoqi</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label reveal">
+    <span class="num mono">02</span>
+    <h2 id="skills">Ko'nikmalar</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="skills-strip reveal">
+    <div class="skill-panel">
+      <span class="mono">01 / MARKUP</span>
       <h3>HTML5</h3>
-      <p>Semantik, tartibli sahifa strukturasi</p>
+      <p>Semantik, toza va tuzilgan sahifa asoslari.</p>
     </div>
-    <div class="glass-card skill">
+    <div class="skill-panel">
+      <span class="mono">02 / STYLE</span>
       <h3>CSS3</h3>
-      <p>Animatsiyalar, glassmorphism, responsiv dizayn</p>
+      <p>Grid, flexbox, animatsiya va responsiv dizayn.</p>
     </div>
-    <div class="glass-card skill">
+    <div class="skill-panel">
+      <span class="mono">03 / LOGIC</span>
       <h3>JavaScript</h3>
-      <p>Canvas, DOM, interaktiv logika</p>
+      <p>DOM boshqaruvi, hodisalar va interaktivlik.</p>
+    </div>
+    <div class="skill-panel">
+      <span class="mono">04 / EYE</span>
+      <h3>UI Dizayn</h3>
+      <p>Minimalist, aniq va maqsadga yo'naltirilgan tarh.</p>
     </div>
   </div>
-</section>
 
-<section id="projects" class="section">
-  <p class="eyebrow">03 — nima qurdim</p>
-  <h2>Loyihalarim</h2>
-  <div class="projects-grid">
-    <div class="glass-card project">
-      <h3>Pizza Order</h3>
-      <p>Pitsa buyurtma qilish uchun interaktiv veb sayt.</p>
-    </div>
-    <div class="glass-card project">
-      <h3>VOID.TRADE</h3>
-      <p>CS2 skinlar savdosi uchun taktik uslubdagi mockup.</p>
-    </div>
-    <div class="glass-card project">
-      <h3>Do You Love Me?</h3>
-      <p>Qochib yuruvchi tugma va piksel-art mushukli hazil sahifa.</p>
-    </div>
+  <div class="section-label reveal">
+    <span class="num mono">03</span>
+    <h2 id="work">Loyihalar</h2>
+    <div class="rule"></div>
   </div>
-</section>
 
-<section id="contact" class="section contact">
-  <p class="eyebrow">04 — bog'lanish</p>
-  <h2>Keling, gaplashamiz</h2>
-  <div class="glass-card contact-card">
-    <p>Loyiha yoki taklif bo'yicha yozing — javob beraman.</p>
-    <a href="mailto:hello@example.com" class="btn">Email yozish</a>
+  <div class="project-grid reveal">
+    <div class="proj p1">
+      <div class="halftone-layer halftone"></div>
+      <div class="content">
+        <span class="idx mono">NEXT CHAPTER</span>
+        <h3>Birinchi loyiham tez orada...</h3>
+        <p>Hozircha bu bo'lim bo'sh — men hali o'z loyihalarim ustida ishlay boshlamadim. Har bir yakunlangan ish shu yerga qo'shib boriladi.</p>
+        <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+      </div>
+    </div>
+    <div class="proj p2">
+      <div class="halftone-layer halftone"></div>
+      <div class="content">
+        <span class="idx mono">STATUS</span>
+        <h3>O'rganish bosqichida</h3>
+        <p>HTML, CSS va JavaScript asoslarini mustahkamlayapman.</p>
+      </div>
+    </div>
+    <div class="proj p3">
+      <div class="halftone-layer halftone"></div>
+      <div class="content">
+        <span class="idx mono">GOAL</span>
+        <h3>Gaming yo'nalishi</h3>
+        <p>Kelajakda o'yinlarga oid veb-interfeyslar yaratish maqsadida.</p>
+      </div>
+    </div>
   </div>
-</section>
+
+  <div class="contact-panel reveal" id="contact">
+    <h2>Bog'lanishdan tortinmang</h2>
+    <p>Savol, taklif yoki shunchaki salomlashish uchun yozing.</p>
+    <div class="contact-links">
+      <a href="mailto:yaxyo823@gmail.com" class="btn btn-fill">Email yozish</a>
+      <a href="https://github.com/yaxyo823-wq" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      <a href="https://t.me/nigmatov_yaxyo" target="_blank" rel="noopener" class="btn btn-ghost">Telegram</a>
+      <a href="https://instagram.com/nigmatov_yaxyo" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+    </div>
+  </div>
+
+</div>
 
 <footer>
-  <p>Yaxyo · qalb bilan qurilgan portfolio</p>
+  Venzo (Nigmatov Yaxyo) — Portfolio · 2026 · Manga Minimal Edition
 </footer>
 
-<script src="script.js"></script>
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
 </body>
 </html>
