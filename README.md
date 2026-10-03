@@ -1,74 +1,68 @@
-# 🎴 Venzo — Manga Minimal Portfolio
+# Yaxyo Nigmatov · Personal Portfolio
 
-Manga uslubidagi minimalist shaxsiy portfolio sayti. Qora-oq panel tuzilishi, klassik yapon tipografiyasi (Shippori Mincho) va bitta qizil "hanko" urg'usi asosida qurilgan. Toza HTML/CSS/JS, hech qanday framework yoki build jarayonisiz.
+A clean, responsive developer portfolio built with semantic HTML and CSS. It introduces Yaxyo Nigmatov, presents learning projects and skills, and provides direct links to social profiles and email.
 
-## 🖼️ Preview
+**[View live portfolio](https://yaxyo-nigmatov-portfolio.yaxyo823.chatgpt.site)**
 
-> Repo'ga skrinshot qo'shsangiz, shu yerga rasm linkini joylashtiring:
-> `![preview](./preview.png)`
+## Overview
 
-## ✨ Xususiyatlar
+The portfolio uses a minimal white layout, blue accents, and a code-inspired introduction. Its content is written in Uzbek, with layouts adapted for desktop and mobile screens.
 
-- Manga-panel uslubidagi grid tuzilma
-- Minimal, sokin animatsiyalar
-- To'liq responsiv (mobil/planshet/desktop)
-- Tashqi kutubxonasiz — sof HTML, CSS, JavaScript
-- Google Fonts: Shippori Mincho, Zen Kaku Gothic New, JetBrains Mono
+## Features
 
-## 📁 Struktura
+- Personal introduction and developer profile.
+- Two project cards with expandable descriptions.
+- About and learning-focused skills sections.
+- Instagram, Telegram, GitHub, and email links.
+- Responsive layouts and sticky section navigation.
+- Semantic HTML, visible keyboard focus, and reduced-motion support.
+- Custom SVG favicon and page metadata.
 
+## Technology
+
+| Technology | Purpose |
+| --- | --- |
+| HTML5 | Semantic page structure and native expandable project details |
+| CSS3 | Responsive grids, typography, layout, and visual styling |
+| SVG | Embedded favicon |
+
+No framework, package installation, JavaScript runtime, or build step is required to display the site.
+
+## Run locally
+
+Open `index.html` in your browser, or serve it with Python 3:
+
+```bash
+python -m http.server 8000
 ```
-.
-├── index.html   # Sayt (HTML + CSS + JS bitta faylda)
-└── README.md    # Ushbu fayl
+
+Then open `http://localhost:8000`.
+
+## Project structure
+
+```text
+portfolio/
+├── index.html        # Complete website, including CSS and favicon
+└── README.md        # Project documentation
 ```
 
-## 🚀 Ishga tushirish
+## Customize
 
-Repo'ni klonlang va faylni brauzerda oching — hech qanday o'rnatish shart emas:
+Edit `index.html` to update the introduction, project descriptions, skills, and contact links. Colors are defined in the `:root` CSS variables. The layout uses media queries for smaller screens.
 
-\`\`\`bash
-git clone https://github.com/yaxyo823-wq/<repo-nomi>.git
-cd <repo-nomi>
-\`\`\`
+The project examples and skills copy are starter portfolio content. Update them to reflect completed work and actual experience before using the site as a professional record.
 
-So'ng `index.html` faylini brauzerda oching, yoki VS Code'da **Live Server** kengaytmasidan foydalaning.
+## Deployment
 
-### GitHub Pages orqali joylashtirish
+The live version is hosted with Sites. The website is a single `index.html` file that can also be served by a static hosting provider. Changes in this GitHub repository do not automatically update the existing Sites deployment.
 
-1. Repo **Settings → Pages** bo'limiga o'ting
-2. **Branch**: `main`, **Folder**: `/root` ni tanlang
-3. Saqlagach, sayt `https://yaxyo823-wq.github.io/<repo-nomi>/` manzilida ochiladi
+## Contact
 
-## 🧩 Bo'limlar
+- **GitHub:** [yaxyo-dev](https://github.com/yaxyo-dev)
+- **Instagram:** [@nigmatov_yaxyo](https://www.instagram.com/nigmatov_yaxyo/)
+- **Telegram:** [@nigmatov_yaxyo](https://t.me/nigmatov_yaxyo)
+- **Email:** [yaxyo823@gmail.com](mailto:yaxyo823@gmail.com)
 
-| Bo'lim | Tavsif |
-|---|---|
-| Hero | Ism, taxallus va qisqa tanishtiruv |
-| Men haqimda | Bio va statistikalar |
-| Ko'nikmalar | HTML, CSS, JavaScript |
-| Loyihalar | Hozircha bo'sh holat — birinchi loyiha tayyor bo'lgach to'ldiriladi |
-| Bog'lanish | Email, GitHub, Telegram, Instagram |
+## License
 
-## 🛠️ Texnologiyalar
-
-- HTML5
-- CSS3 (Grid, Flexbox, custom properties)
-- Vanilla JavaScript (Intersection Observer bilan scroll-reveal)
-
-## 📌 To-Do
-
-- [ ] Profil rasmini qo'shish
-- [ ] Birinchi loyihani "Loyihalar" bo'limiga qo'shish
-- [ ] Skrinshot qo'shib, README'dagi preview'ni to'ldirish
-
-## 📬 Bog'lanish
-
-- Email: yaxyo823@gmail.com
-- GitHub: [@yaxyo823-wq](https://github.com/yaxyo823-wq)
-- Telegram: [@nigmatov_yaxyo](https://t.me/nigmatov_yaxyo)
-- Instagram: [@nigmatov_yaxyo](https://instagram.com/nigmatov_yaxyo)
-
-## 📄 Litsenziya
-
-Shaxsiy loyiha — erkin foydalanish va o'rganish uchun ochiq.
+No open-source license has been added. Contact the author regarding reuse.
